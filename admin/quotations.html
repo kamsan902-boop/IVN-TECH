@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotations – IVN TECH Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="admin-wrap">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="../images/logo.png" alt="IVN TECH Logo">
+      <div class="sidebar-brand-text"><strong>IVN TECH</strong><span>Admin Panel</span></div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Main Menu</div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg> Dashboard</a>
+      <a href="customers.html"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Customers</a>
+      <a href="quotations.html" class="active"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg> Quotations</a>
+      <a href="invoices.html"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></svg> Invoices</a>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-footer"><a href="../index.html"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Back to Website</a></div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-header">
+      <div class="admin-header-left"><span class="admin-header-title">Quotations</span></div>
+      <div class="admin-header-right"><div class="admin-avatar">A</div></div>
+    </header>
+    <nav class="mobile-admin-nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="customers.html">Customers</a>
+      <a href="quotations.html" class="active">Quotations</a>
+      <a href="invoices.html">Invoices</a>
+    </nav>
+
+    <div class="admin-content">
+
+      <!-- LIST VIEW -->
+      <div id="listView">
+        <div class="flex-between mb-24">
+          <h1 style="font-size:1.5rem;font-weight:700;">Quotations</h1>
+          <button class="btn btn-accent btn-sm" onclick="showCreateForm()">+ Create Quotation</button>
+        </div>
+        <div class="card">
+          <div style="overflow-x:auto;">
+            <table>
+              <thead><tr><th>Quotation #</th><th>Date</th><th>Customer</th><th class="text-right">Total</th><th></th></tr></thead>
+              <tbody id="qTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM VIEW -->
+      <div id="formView" class="hidden">
+        <div class="flex-between mb-24">
+          <h1 style="font-size:1.5rem;font-weight:700;" id="formHeading">Create Quotation</h1>
+          <button class="btn btn-dark-outline btn-sm" onclick="showList()">← Back</button>
+        </div>
+        <div class="form-panel">
+          <div class="form-row form-row-2">
+            <div><label>Quotation #</label><input class="form-input" id="qNumber"></div>
+            <div><label>Date</label><input type="date" class="form-input" id="qDate"></div>
+          </div>
+          <div class="form-row form-row-2">
+            <div><label>Customer Name</label><input class="form-input" id="qCustName"></div>
+            <div><label>Phone</label><input class="form-input" id="qCustPhone"></div>
+          </div>
+          <div class="form-row form-row-2">
+            <div><label>Email</label><input class="form-input" id="qCustEmail"></div>
+            <div><label>Address</label><input class="form-input" id="qCustAddr"></div>
+          </div>
+          <div class="form-row">
+            <div><label>Project / Service Description</label><textarea class="form-input" rows="2" id="qDesc"></textarea></div>
+          </div>
+
+          <div class="flex-between mt-24" style="margin-bottom:12px;">
+            <h3 style="font-size:.9rem;font-weight:600;">Line Items</h3>
+            <button class="btn btn-sm btn-accent" onclick="addLineItem()">+ Add Item</button>
+          </div>
+          <div id="lineItems"></div>
+
+          <div class="form-row form-row-2" style="margin-top:16px;">
+            <div><label>Discount (Rs.)</label><input type="number" min="0" class="form-input" id="qDiscount" value="0" oninput="updateTotals()"></div>
+            <div><label>Grand Total</label><div style="font-size:1.2rem;font-weight:700;color:var(--primary);padding-top:8px;" id="grandTotal">Rs. 0</div></div>
+          </div>
+
+          <div class="form-row form-row-2" style="margin-top:16px;">
+            <div><label>Notes</label><textarea class="form-input" rows="2" id="qNotes"></textarea></div>
+            <div><label>Terms & Conditions</label><textarea class="form-input" rows="2" id="qTerms">Payment due within 30 days. Quotation valid for 15 days.</textarea></div>
+          </div>
+
+          <div class="action-bar" style="margin-top:20px;">
+            <button class="btn btn-accent btn-sm" onclick="saveQuotation()" id="saveBtn">Create Quotation</button>
+            <button class="btn btn-dark-outline btn-sm" onclick="previewQuotation()">Preview</button>
+            <button class="btn btn-dark-outline btn-sm" onclick="downloadPDF()">Download PDF</button>
+            <button class="btn btn-dark-outline btn-sm" onclick="printDoc()">Print</button>
+            <button class="btn btn-dark-outline btn-sm" onclick="sendQuotation()">Send to Customer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREVIEW VIEW -->
+      <div id="previewView" class="hidden">
+        <div class="action-bar no-print">
+          <button class="btn btn-dark-outline btn-sm" onclick="hidePreview()">← Back to Edit</button>
+          <button class="btn btn-accent btn-sm" onclick="downloadPDF()">Download PDF</button>
+          <button class="btn btn-dark-outline btn-sm" onclick="printDoc()">Print</button>
+          <button class="btn btn-dark-outline btn-sm" onclick="sendQuotation()">Send to Customer</button>
+        </div>
+        <div class="card" style="padding:0;"><div id="docPreview"></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../js/store.js"></script>
+<script>
+  let editId = null;
+  let items = [{ description: "", quantity: 1, unitPrice: 0 }];
+
+  function getFormData() {
+    return {
+      quotationNumber: document.getElementById("qNumber").value,
+      date: document.getElementById("qDate").value,
+      customerId: "",
+      customerName: document.getElementById("qCustName").value,
+      customerPhone: document.getElementById("qCustPhone").value,
+      customerEmail: document.getElementById("qCustEmail").value,
+      customerAddress: document.getElementById("qCustAddr").value,
+      projectDescription: document.getElementById("qDesc").value,
+      items: items,
+      discount: +document.getElementById("qDiscount").value || 0,
+      notes: document.getElementById("qNotes").value,
+      terms: document.getElementById("qTerms").value,
+    };
+  }
+
+  function showList() {
+    document.getElementById("listView").classList.remove("hidden");
+    document.getElementById("formView").classList.add("hidden");
+    document.getElementById("previewView").classList.add("hidden");
+    renderTable();
+  }
+
+  function showCreateForm() {
+    editId = null;
+    items = [{ description: "", quantity: 1, unitPrice: 0 }];
+    document.getElementById("listView").classList.add("hidden");
+    document.getElementById("formView").classList.remove("hidden");
+    document.getElementById("previewView").classList.add("hidden");
+    document.getElementById("formHeading").textContent = "Create Quotation";
+    document.getElementById("saveBtn").textContent = "Create Quotation";
+    document.getElementById("qNumber").value = Store.nextQuotationNum();
+    document.getElementById("qDate").value = new Date().toISOString().split("T")[0];
+    document.getElementById("qCustName").value = "";
+    document.getElementById("qCustPhone").value = "";
+    document.getElementById("qCustEmail").value = "";
+    document.getElementById("qCustAddr").value = "";
+    document.getElementById("qDesc").value = "";
+    document.getElementById("qDiscount").value = "0";
+    document.getElementById("qNotes").value = "";
+    document.getElementById("qTerms").value = "Payment due within 30 days. Quotation valid for 15 days.";
+    renderLineItems();
+    updateTotals();
+  }
+
+  function editQuotation(id) {
+    editId = id;
+    const q = Store.getQuotation(id);
+    items = q.items || [{ description: "", quantity: 1, unitPrice: 0 }];
+    document.getElementById("listView").classList.add("hidden");
+    document.getElementById("formView").classList.remove("hidden");
+    document.getElementById("previewView").classList.add("hidden");
+    document.getElementById("formHeading").textContent = "Edit Quotation";
+    document.getElementById("saveBtn").textContent = "Update Quotation";
+    document.getElementById("qNumber").value = q.quotationNumber;
+    document.getElementById("qDate").value = q.date;
+    document.getElementById("qCustName").value = q.customerName;
+    document.getElementById("qCustPhone").value = q.customerPhone;
+    document.getElementById("qCustEmail").value = q.customerEmail || "";
+    document.getElementById("qCustAddr").value = q.customerAddress || "";
+    document.getElementById("qDesc").value = q.projectDescription || "";
+    document.getElementById("qDiscount").value = q.discount || 0;
+    document.getElementById("qNotes").value = q.notes || "";
+    document.getElementById("qTerms").value = q.terms || "";
+    renderLineItems();
+    updateTotals();
+  }
+
+  // --- Line Items ---
+  function renderLineItems() {
+    document.getElementById("lineItems").innerHTML = items.map((item, i) => `
+      <div class="line-item">
+        <input class="form-input" placeholder="Description" value="${item.description}" oninput="items[${i}].description=this.value">
+        <input type="number" min="1" class="form-input" placeholder="Qty" value="${item.quantity}" oninput="items[${i}].quantity=+this.value;updateTotals()">
+        <input type="number" min="0" class="form-input" placeholder="Unit Price" value="${item.unitPrice || ''}" oninput="items[${i}].unitPrice=+this.value;updateTotals()">
+        <div class="total-col">Rs. ${(item.quantity * item.unitPrice).toLocaleString()}</div>
+        <button class="btn-icon" onclick="removeLineItem(${i})" style="color:var(--red)">&times;</button>
+      </div>
+    `).join("");
+  }
+
+  function addLineItem() { items.push({ description: "", quantity: 1, unitPrice: 0 }); renderLineItems(); }
+  function removeLineItem(i) { items.splice(i, 1); renderLineItems(); updateTotals(); }
+
+  function updateTotals() {
+    const d = +document.getElementById("qDiscount").value || 0;
+    document.getElementById("grandTotal").textContent = "Rs. " + Store.grandTotal(items, d).toLocaleString();
+  }
+
+  // --- Save ---
+  function saveQuotation() {
+    const data = getFormData();
+    if (editId) {
+      Store.updateQuotation(editId, data);
+      alert("Quotation updated!");
+    } else {
+      const created = Store.addQuotation(data);
+      Store.addCustomer({ name: data.customerName, phone: data.customerPhone, email: data.customerEmail, address: data.customerAddress, project: data.projectDescription });
+      alert("Quotation created!");
+      editId = created.id;
+    }
+  }
+
+  // --- Preview ---
+  function buildDocHTML(data) {
+    const sub = Store.subtotal(data.items);
+    const grand = sub - (data.discount || 0);
+    return `<div class="doc-preview" id="docPrintArea">
+      <div class="doc-header">
+        <div class="doc-brand">
+          <img src="../images/logo.png" alt="IVN TECH" style="height:48px;width:48px;border-radius:50%;object-fit:cover;">
+          <div><h1>IVN TECH</h1><small>Malayalapuram, Kilinochchi, Sri Lanka<br>0774939226 | kamsan902@gmail.com</small></div>
+        </div>
+        <div class="doc-type"><h2>Quotation</h2><p>#${data.quotationNumber}</p><p>Date: ${data.date}</p></div>
+      </div>
+      <div class="doc-details">
+        <div><h4>Bill To:</h4><p><strong>${data.customerName}</strong><br>${data.customerPhone}${data.customerEmail ? "<br>" + data.customerEmail : ""}${data.customerAddress ? "<br>" + data.customerAddress : ""}</p></div>
+        <div>${data.projectDescription ? "<h4>Project / Service:</h4><p>" + data.projectDescription + "</p>" : ""}</div>
+      </div>
+      <table class="doc-table"><thead><tr><th>#</th><th>Description</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead><tbody>
+        ${(data.items || []).map((it, i) => `<tr><td>${i + 1}</td><td>${it.description}</td><td>${it.quantity}</td><td>Rs. ${it.unitPrice.toLocaleString()}</td><td>Rs. ${(it.quantity * it.unitPrice).toLocaleString()}</td></tr>`).join("")}
+      </tbody></table>
+      <div class="doc-totals"><table>
+        <tr><td>Subtotal</td><td class="text-right">Rs. ${sub.toLocaleString()}</td></tr>
+        ${data.discount ? `<tr style="color:var(--red)"><td>Discount</td><td class="text-right">- Rs. ${data.discount.toLocaleString()}</td></tr>` : ""}
+        <tr class="grand"><td>Grand Total</td><td class="text-right">Rs. ${grand.toLocaleString()}</td></tr>
+      </table></div>
+      ${data.notes ? `<div class="doc-notes"><h4>Notes:</h4><p>${data.notes}</p></div>` : ""}
+      ${data.terms ? `<div class="doc-notes" style="margin-top:12px;"><h4>Terms & Conditions:</h4><p>${data.terms}</p></div>` : ""}
+      <div class="doc-footer">IVN TECH | Malayalapuram, Kilinochchi, Sri Lanka | 0774939226 | kamsan902@gmail.com</div>
+    </div>`;
+  }
+
+  function previewQuotation() {
+    const data = getFormData();
+    document.getElementById("docPreview").innerHTML = buildDocHTML(data);
+    document.getElementById("formView").classList.add("hidden");
+    document.getElementById("listView").classList.add("hidden");
+    document.getElementById("previewView").classList.remove("hidden");
+  }
+
+  function hidePreview() {
+    document.getElementById("previewView").classList.add("hidden");
+    document.getElementById("formView").classList.remove("hidden");
+  }
+
+  // --- PDF ---
+  async function downloadPDF() {
+    const data = getFormData();
+    const temp = document.createElement("div");
+    temp.innerHTML = buildDocHTML(data);
+    temp.style.position = "fixed"; temp.style.left = "-9999px";
+    document.body.appendChild(temp);
+    try {
+      const canvas = await html2canvas(temp.querySelector(".doc-preview"), { scale: 2 });
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF("p", "mm", "a4");
+      const w = pdf.internal.pageSize.getWidth();
+      const h = (canvas.height * w) / canvas.width;
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, w, h);
+      pdf.save(data.quotationNumber + ".pdf");
+    } catch (err) { alert("PDF generation failed: " + err.message); }
+    document.body.removeChild(temp);
+  }
+
+  // --- Print ---
+  function printDoc() {
+    previewQuotation();
+    setTimeout(() => window.print(), 300);
+  }
+
+  // --- Send ---
+  function sendQuotation() {
+    const email = document.getElementById("qCustEmail").value;
+    if (email) {
+      const num = document.getElementById("qNumber").value;
+      window.open("mailto:" + email + "?subject=Quotation " + num + " from IVN TECH&body=Please find your quotation attached.");
+    } else { alert("No customer email provided."); }
+  }
+
+  // --- Table ---
+  function renderTable() {
+    const qs = Store.getQuotations();
+    document.getElementById("qTable").innerHTML = qs.length === 0
+      ? '<tr><td colspan="5" class="empty-state">No quotations yet.</td></tr>'
+      : qs.map(q => `<tr>
+          <td><strong>${q.quotationNumber}</strong></td>
+          <td>${q.date}</td>
+          <td>${q.customerName}</td>
+          <td class="text-right">Rs. ${Store.grandTotal(q.items, q.discount).toLocaleString()}</td>
+          <td class="text-right">
+            <button class="btn-icon" onclick="editQuotation('${q.id}')" title="View/Edit">&#9998;</button>
+            <button class="btn-icon" onclick="if(confirm('Delete?')){Store.deleteQuotation('${q.id}');renderTable();}" title="Delete" style="color:var(--red)">&#10005;</button>
+          </td>
+        </tr>`).join("");
+  }
+  renderTable();
+</script>
+</body>
+</html>
